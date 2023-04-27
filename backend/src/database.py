@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Dict
+from typing import List, Optional, Dict
 
 from neo4j import GraphDatabase
 

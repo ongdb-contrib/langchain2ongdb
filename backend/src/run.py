@@ -1,6 +1,5 @@
 import contextlib
 import io
-from typing import Dict
 
 from logger import logger
 
