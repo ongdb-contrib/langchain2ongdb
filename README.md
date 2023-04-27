@@ -1,6 +1,6 @@
 # Langchain2Neo4j
 
-![LangchainNeo4j Demo](./image/langchain2neo4j.png)
+![LangchainNeo4j Demo](./image/langchain2ongdb1-1.png)
 
 The Langchain2Neo4j is a proof of concept application of how to integrate Neo4j into the Langchain ecosystem.
 This project took heavy inspiration from [IMDB-LLM](https://github.com/ibiscp/LLM-IMDB).
@@ -56,3 +56,12 @@ MATCH (m:Movie)
 WHERE toLower(m.title) CONTAINS toLower("matrix")
 RETURN {{movie:m.title}} AS result
 ```
+
+## QA
+```
+Who played in Toy Story?
+Did the second played act in any other movies?
+Who played in the pokemon movies?Use keyword search
+Who played in the lord of the ring?Use vector search
+```
+

@@ -1,11 +1,9 @@
-import os
-
 import pandas as pd
 from neo4j import GraphDatabase
 
 env_dict = {}
 
-with open('.env') as file:
+with open('../.env') as file:
     for line in file:
         # Strip leading and trailing whitespaces and split by '='
         key, value = line.strip().split('=')

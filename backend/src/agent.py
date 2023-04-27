@@ -6,6 +6,7 @@ from langchain.memory import ConversationBufferMemory, ReadOnlySharedMemory
 from langchain.agents import initialize_agent
 from langchain.agents import AgentType
 
+from backend.src.env import getEnv
 from cypher_database_tool import LLMCypherGraphChain
 from keyword_neo4j_tool import LLMKeywordGraphChain
 from vector_neo4j_tool import LLMNeo4jVectorChain
@@ -21,7 +22,7 @@ class MovieAgent(AgentExecutor):
     @classmethod
     def initialize(cls, movie_graph, model_name, *args, **kwargs):
         if model_name in ['gpt-3.5-turbo', 'gpt-4']:
-            llm = ChatOpenAI(temperature=0, model_name=model_name)
+            llm = ChatOpenAI(temperature=0, model_name=model_name, openai_api_key=getEnv('OPENAI_KEY'))
         else:
             raise Exception(f"Model {model_name} is currently not supported")
 

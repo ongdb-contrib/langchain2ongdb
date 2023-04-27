@@ -112,8 +112,8 @@ if __name__ == "__main__":
 
     llm = ChatOpenAI(
         temperature=0.3)
-    database = Neo4jDatabase(host="bolt://3.83.107.240:7687",
-                             user="neo4j", password="promotion-impulse-supervisor")
+    database = Neo4jDatabase(host="bolt://54.92.229.14:7687",
+                             user="neo4j", password="adaptions-nod-prompts")
     chain = LLMCypherGraphChain(llm=llm, verbose=True, graph=database)
 
     output = chain.run(

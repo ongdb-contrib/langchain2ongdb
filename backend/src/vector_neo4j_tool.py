@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+from backend.src.env import getEnv
 from database import Neo4jDatabase
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.chains.base import Chain
@@ -34,7 +36,7 @@ class LLMNeo4jVectorChain(Chain):
     graph: Neo4jDatabase = Field(exclude=True)
     input_key: str = "query"  #: :meta private:
     output_key: str = "result"  #: :meta private:
-    embeddings: OpenAIEmbeddings = OpenAIEmbeddings()
+    embeddings: OpenAIEmbeddings = OpenAIEmbeddings(openai_api_key=getEnv('OPENAI_KEY'))
 
     @property
     def input_keys(self) -> List[str]:
@@ -71,8 +73,8 @@ if __name__ == '__main__':
     from langchain.chat_models import ChatOpenAI
 
     llm = ChatOpenAI(temperature=0.0)
-    database = Neo4jDatabase(host="bolt://100.27.33.83:7687",
-                             user="neo4j", password="room-loans-transmissions")
+    database = Neo4jDatabase(host="bolt://54.92.229.14:7687",
+                             user="neo4j", password="adaptions-nod-prompts")
     chain = LLMNeo4jVectorChain(llm=llm, verbose=True, graph=database)
 
     output = chain.run(

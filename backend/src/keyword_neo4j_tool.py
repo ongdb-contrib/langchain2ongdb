@@ -81,8 +81,8 @@ if __name__ == '__main__':
     from langchain.chat_models import ChatOpenAI
 
     llm = ChatOpenAI(temperature=0.0)
-    database = Neo4jDatabase(host="bolt://100.27.33.83:7687",
-                             user="neo4j", password="room-loans-transmissions")
+    database = Neo4jDatabase(host="bolt://54.92.229.14:7687",
+                             user="neo4j", password="adaptions-nod-prompts")
     chain = LLMKeywordGraphChain(llm=llm, verbose=True, graph=database)
 
     output = chain.run(
