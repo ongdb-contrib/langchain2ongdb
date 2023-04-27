@@ -1,7 +1,6 @@
 from langchain.agents.agent import AgentExecutor
 from langchain.agents.tools import Tool
 from langchain.chat_models import ChatOpenAI
-from langchain.llms import OpenAI
 from langchain.memory import ConversationBufferMemory, ReadOnlySharedMemory
 from langchain.agents import initialize_agent
 from langchain.agents import AgentType
