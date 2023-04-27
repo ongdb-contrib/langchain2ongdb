@@ -6,20 +6,18 @@ from langchain.agents import initialize_agent
 from langchain.agents import AgentType
 
 from backend.src.env import getEnv
-from cypher_database_tool import LLMCypherGraphChain
-from keyword_neo4j_tool import LLMKeywordGraphChain
-from vector_neo4j_tool import LLMNeo4jVectorChain
+from cypher_tool import LLMCypherGraphChain
 
 
-class MovieAgent(AgentExecutor):
-    """Movie agent"""
+class GraphAgent(AgentExecutor):
+    """Graph agent"""
 
     @staticmethod
     def function_name():
-        return "MovieAgent"
+        return "GraphAgent"
 
     @classmethod
-    def initialize(cls, movie_graph, model_name, *args, **kwargs):
+    def initialize(cls, graph, model_name, *args, **kwargs):
         if model_name in ['gpt-3.5-turbo', 'gpt-4']:
             llm = ChatOpenAI(temperature=0, model_name=model_name, openai_api_key=getEnv('OPENAI_KEY'))
         else:
@@ -30,12 +28,7 @@ class MovieAgent(AgentExecutor):
         readonlymemory = ReadOnlySharedMemory(memory=memory)
 
         cypher_tool = LLMCypherGraphChain(
-            llm=llm, graph=movie_graph, verbose=True, memory=readonlymemory)
-        fulltext_tool = LLMKeywordGraphChain(
-            llm=llm, graph=movie_graph, verbose=True)
-        vector_tool = LLMNeo4jVectorChain(
-            llm=llm, verbose=True, graph=movie_graph
-        )
+            llm=llm, graph=graph, verbose=True, memory=readonlymemory)
 
         # Load the tool configs that are needed.
         tools = [
@@ -43,23 +36,11 @@ class MovieAgent(AgentExecutor):
                 name="Cypher search",
                 func=cypher_tool.run,
                 description="""
-                Utilize this tool to search within a movie database, specifically designed to answer movie-related questions.
-                This specialized tool offers streamlined search capabilities to help you find the movie information you need with ease.
-                Input should be full question.""",
-            ),
-            Tool(
-                name="Keyword search",
-                func=fulltext_tool.run,
-                description="""Utilize this tool when explicitly told to use keyword search.
-                Input should be a list of relevant movies inferred from the question.
-                Remove stop word "The" from specified movie titles.""",
-            ),
-            Tool(
-                name="Vector search",
-                func=vector_tool.run,
-                description="Utilize this tool when explicity told to use vector search.Input should be full question.Do not include agent instructions.",
-            ),
-
+                利用此工具在股票、高管数据库中搜索信息，该数据库专门用于回答与股票和高管相关的问题。
+                这个专用的工具提供了简化的搜索功能，可帮助您轻松找到所需的股票和高管信息。
+                输入应该是完整的问题。
+                """,
+            )
         ]
 
         agent_chain = initialize_agent(

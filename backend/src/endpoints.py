@@ -1,6 +1,6 @@
 import logging
 
-from agent import MovieAgent
+from agent import GraphAgent
 from backend.src.env import getEnv
 from database import Neo4jDatabase
 from fastapi import APIRouter, HTTPException, Query
@@ -13,16 +13,20 @@ model_name = getEnv("MODEL_NAME")
 # build router
 router = APIRouter()
 logger = logging.getLogger(__name__)
-movie_graph = Neo4jDatabase(
+graph = Neo4jDatabase(
     host=neo4j_host, user=neo4j_user, password=neo4j_password)
-agent_movie = MovieAgent.initialize(
-    movie_graph=movie_graph, model_name=model_name)
+
+# 不使用记忆组件功能，每次接口初始化
+# agent_graph = GraphAgent.initialize(
+#     graph=graph, model_name=model_name)
 
 
 @router.get("/predict")
 def get_load(message: str = Query(...)):
     try:
-        return get_result_and_thought_using_graph(agent_movie, movie_graph, message)
+        agent_graph = GraphAgent.initialize(
+            graph=graph, model_name=model_name)
+        return get_result_and_thought_using_graph(agent_graph, message)
     except Exception as e:
         # Log stack trace
         logger.exception(e)

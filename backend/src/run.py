@@ -6,7 +6,6 @@ from logger import logger
 
 def get_result_and_thought_using_graph(
     langchain_object,
-    database,
     message: str,
 ):
     """Get result and thought from extracted json"""
