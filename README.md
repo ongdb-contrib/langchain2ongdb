@@ -4,6 +4,12 @@
 >在`Langchain2Neo4j`的基础上去掉了`Keyword search(关键词全文检索)`和`Vector search(向量检索)`功能，只保留了基础的`Cypher`生成工具，并跑通了一个 [中文数据集案例](https://github.com/ongdb-contrib/graph-qabot-demo/tree/main/db) 。
 >如果对去掉的两个工具感兴趣可以查看 [Langchain2ONgDB历史仓库](https://github.com/ongdb-contrib/langchain2ongdb/tree/main) 。
 
+1. [Langchain2ONgDB分支：main](https://github.com/ongdb-contrib/langchain2ongdb/blob/main) ，设置OPENAI_KEY后跑通了英文数据集
+
+2. [Langchain2ONgDB分支：1.0](https://github.com/ongdb-contrib/langchain2ongdb/blob/1.0) ，设置OPENAI_KEY后跑通了中文数据集
+
+3. [~~Langchain2ONgDB分支：2.0~~](https://github.com/ongdb-contrib/langchain2ongdb/blob/2.0) ~~，设置封装的GPT的HTTP接口后跑通了中文数据集~~
+
 ## LangChain代理流程
 ```json
 // 导入 https://ongdb-contrib.github.io/graphene/app/ 查看可视化效果
@@ -59,11 +65,6 @@ MATCH p0=(n0:股票)-[r0:上市日期]->(n1:上市日期)
 WHERE (n1.value>=20230306 AND n1.value<=20230306) 
 RETURN DISTINCT n0 AS n4 LIMIT 10;
 
-# 2022年以来上市的股票有哪些？
-MATCH p0=(n0:股票)-[r0:上市日期]->(n1:上市日期) 
-WHERE n1.value>=20220101
-RETURN DISTINCT n0 AS n4 LIMIT 10;
-
 # 刘卫国是哪个公司的高管？
 MATCH p0=(n0:股票)<-[r0:任职于]-(n1:高管) 
   WHERE n1.value='刘卫国'
@@ -72,20 +73,11 @@ RETURN DISTINCT n0 AS n4 LIMIT 10;
 
 ## 样例问题
 ```
-山西都有哪些上市公司？
-建筑工程行业有多少家上市公司？【英文】
-火力发电行业博士学历的男性高管有多少位？【英文】
-在山东由硕士学历的男性高管任职的上市公司，都属于哪些行业？
-2023年三月六日上市的股票有哪些？
 刘卫国是哪个公司的高管？
-
 海南有哪些上市公司？
-电气设备行业有多少家上市公司？
-水泥行业博士学历的男性高管有多少位？
 在北京由硕士学历的女性高管任职的上市公司，都属于哪些行业？
-李建国是哪个公司的高管？
-李建国是哪些公司的高管？
 李建国在哪些公司任职？
-2023年以来上市的股票有哪些？
+2023年三月六日上市的股票有哪些？
+建筑工程行业有多少家上市公司？
+水泥行业博士学历的男性高管有多少位？
 ```
-

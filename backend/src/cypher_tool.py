@@ -44,11 +44,6 @@ MATCH p0=(n0:股票)-[r0:上市日期]->(n1:上市日期)
 WHERE (n1.value>=20230306 AND n1.value<=20230306) 
 RETURN DISTINCT n0 AS n4 LIMIT 10;
 
-# 2022年以来上市的股票有哪些？
-MATCH p0=(n0:股票)-[r0:上市日期]->(n1:上市日期) 
-WHERE n1.value>=20220101
-RETURN DISTINCT n0 AS n4 LIMIT 10;
-
 # 刘卫国是哪个公司的高管？
 MATCH p0=(n0:股票)<-[r0:任职于]-(n1:高管) 
   WHERE n1.value='刘卫国'
