@@ -1,7 +1,7 @@
 import logging
 
 from agent import GraphAgent
-from backend.src.env import getEnv
+from backend.src2.env import getEnv
 from database import Neo4jDatabase
 from fastapi import APIRouter, HTTPException, Query
 from run import get_result_and_thought_using_graph
@@ -25,7 +25,7 @@ graph = Neo4jDatabase(
 def get_load(message: str = Query(...)):
     try:
         agent_graph = GraphAgent.initialize(
-            graph=graph, model_name=model_name)
+            graph=graph, model_name=model_name, message=message)
         return get_result_and_thought_using_graph(agent_graph, message)
     except Exception as e:
         # Log stack trace
