@@ -4,6 +4,12 @@
 >在`Langchain2Neo4j`的基础上去掉了`Keyword search(关键词全文检索)`和`Vector search(向量检索)`功能，只保留了基础的`Cypher`生成工具，并跑通了一个 [中文数据集案例](https://github.com/ongdb-contrib/graph-qabot-demo/tree/main/db) 。
 >如果对去掉的两个工具感兴趣可以查看 [Langchain2ONgDB历史仓库](https://github.com/ongdb-contrib/langchain2ongdb/tree/main) 。
 
+1. [Langchain2ONgDB分支：main](https://github.com/ongdb-contrib/langchain2ongdb/blob/main) ，设置OPENAI_KEY后跑通了英文数据集
+
+2. [Langchain2ONgDB分支：1.0](https://github.com/ongdb-contrib/langchain2ongdb/blob/1.0) ，设置OPENAI_KEY后跑通了中文数据集
+
+3. [~~Langchain2ONgDB分支：2.0~~](https://github.com/ongdb-contrib/langchain2ongdb/blob/2.0) ，设置封装的GPT的HTTP接口后跑通了中文数据集
+
 ## LangChain代理流程
 ```json
 // 导入 https://ongdb-contrib.github.io/graphene/app/ 查看可视化效果

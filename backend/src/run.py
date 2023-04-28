@@ -1,3 +1,4 @@
+# -- coding: utf-8 --**
 import contextlib
 import io
 
@@ -5,8 +6,8 @@ from logger import logger
 
 
 def get_result_and_thought_using_graph(
-    langchain_object,
-    message: str,
+        langchain_object,
+        message: str,
 ):
     """Get result and thought from extracted json"""
     try:
@@ -34,4 +35,13 @@ def get_result_and_thought_using_graph(
     except Exception as exc:
         raise ValueError(f"Error: {str(exc)}") from exc
 
-    return {"response": output["output"], "thought": thought}
+    # return {"response": output['output'], "thought": thought}
+    return {"response": output_pack(output), "thought": thought}
+
+
+def output_pack(param):
+    if isinstance(param, (str)):
+        return param
+    if isinstance(param, (dict)):
+        return param['output']
+    return str(param)

@@ -1,7 +1,7 @@
 import logging
 
 from agent import GraphAgent
-from backend.src2.env import getEnv
+from backend.src.env import getEnv
 from database import Neo4jDatabase
 from fastapi import APIRouter, HTTPException, Query
 from run import get_result_and_thought_using_graph

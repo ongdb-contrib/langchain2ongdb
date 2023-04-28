@@ -6,10 +6,11 @@ from langchain.agents import initialize_agent
 from langchain.agents import AgentType
 from langchain.prompts import SystemMessagePromptTemplate, HumanMessagePromptTemplate
 
-from backend.src2.env import getEnv
+from backend.src.CustomLLM import CustomLLM
+from backend.src.env import getEnv
 from cypher_tool import LLMCypherGraphChain
 import Levenshtein
-
+import openai
 
 class GraphAgent(AgentExecutor):
     """Graph agent"""
@@ -21,7 +22,8 @@ class GraphAgent(AgentExecutor):
     @classmethod
     def initialize(cls, graph, model_name, message, *args, **kwargs):
         if model_name in ['gpt-3.5-turbo', 'gpt-4']:
-            llm = ChatOpenAI(temperature=0, model_name=model_name, openai_api_key=getEnv('OPENAI_KEY'))
+            # llm = ChatOpenAI(temperature=0, model_name=model_name, openai_api_key=getEnv('OPENAI_KEY'))
+            llm = CustomLLM(model_name=model_name)
         else:
             raise Exception(f"Model {model_name} is currently not supported")
 
@@ -29,22 +31,25 @@ class GraphAgent(AgentExecutor):
             memory_key="chat_history", return_messages=True)
         readonlymemory = ReadOnlySharedMemory(memory=memory)
 
-        # 动态调整Prompt
-        SYSTEM_TEMPLATE = """
-        您是一名助手，能够根据示例Cypher查询生成Cypher查询。
-        示例Cypher查询是：\n""" + examples(message) + """\n
-        不要回复除Cypher查询以外的任何解释或任何其他信息。
-        您永远不要为你的不准确回复感到抱歉，并严格根据提供的Cypher示例生成Cypher语句。
-        不要提供任何无法从密码示例中推断出的Cypher语句。
-        """
-        SYSTEM_CYPHER_PROMPT = SystemMessagePromptTemplate.from_template(SYSTEM_TEMPLATE)
+        # # 动态调整Prompt
+        # SYSTEM_TEMPLATE = """
+        # 您是一名助手，能够根据示例Cypher查询生成Cypher查询。
+        # 示例Cypher查询是：\n""" + examples(message) + """\n
+        # 不要回复除Cypher查询以外的任何解释或任何其他信息。
+        # 您永远不要为你的不准确回复感到抱歉，并严格根据提供的Cypher示例生成Cypher语句。
+        # 不要提供任何无法从密码示例中推断出的Cypher语句。
+        # """
+        # SYSTEM_CYPHER_PROMPT = SystemMessagePromptTemplate.from_template(SYSTEM_TEMPLATE)
+        #
+        # HUMAN_TEMPLATE = "{question}"
+        # HUMAN_PROMPT = HumanMessagePromptTemplate.from_template(HUMAN_TEMPLATE)
 
-        HUMAN_TEMPLATE = "{question}"
-        HUMAN_PROMPT = HumanMessagePromptTemplate.from_template(HUMAN_TEMPLATE)
+        # cypher_tool = LLMCypherGraphChain(
+        #     llm=llm, graph=graph, verbose=True, memory=readonlymemory,
+        #     system_prompt=SYSTEM_CYPHER_PROMPT, human_prompt=HUMAN_PROMPT)
 
         cypher_tool = LLMCypherGraphChain(
-            llm=llm, graph=graph, verbose=True, memory=readonlymemory,
-            system_prompt=SYSTEM_CYPHER_PROMPT, human_prompt=HUMAN_PROMPT)
+                 llm=llm, graph=graph, verbose=True, memory=readonlymemory)
 
         # Load the tool configs that are needed.
         tools = [
