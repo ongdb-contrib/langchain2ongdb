@@ -44,6 +44,11 @@ MATCH p0=(n0:股票)-[r0:上市日期]->(n1:上市日期)
 WHERE (n1.value>=20230306 AND n1.value<=20230306) 
 RETURN DISTINCT n0 AS n4 LIMIT 10;
 
+# 2022年以来上市的股票有哪些？
+MATCH p0=(n0:股票)-[r0:上市日期]->(n1:上市日期) 
+WHERE n1.value>=20220101
+RETURN DISTINCT n0 AS n4 LIMIT 10;
+
 # 刘卫国是哪个公司的高管？
 MATCH p0=(n0:股票)<-[r0:任职于]-(n1:高管) 
   WHERE n1.value='刘卫国'
@@ -58,12 +63,12 @@ SYSTEM_TEMPLATE = """
 不要提供任何无法从密码示例中推断出的Cypher语句。
 """
 
-SYSTEM_CYPHER_PROMPT = SystemMessagePromptTemplate.from_template(
-    SYSTEM_TEMPLATE)
+SYSTEM_CYPHER_PROMPT = SystemMessagePromptTemplate.from_template(SYSTEM_TEMPLATE)
+
 HUMAN_TEMPLATE = "{question}"
 HUMAN_PROMPT = HumanMessagePromptTemplate.from_template(HUMAN_TEMPLATE)
 
-
+# " " + "请用中文回答我的问题！"
 class LLMCypherGraphChain(Chain, BaseModel):
     """Chain that interprets a prompt and executes python code to do math.
     """
