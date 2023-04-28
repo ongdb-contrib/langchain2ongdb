@@ -68,7 +68,7 @@ SYSTEM_CYPHER_PROMPT = SystemMessagePromptTemplate.from_template(SYSTEM_TEMPLATE
 HUMAN_TEMPLATE = "{question}"
 HUMAN_PROMPT = HumanMessagePromptTemplate.from_template(HUMAN_TEMPLATE)
 
-# " " + "请用中文回答我的问题！"
+
 class LLMCypherGraphChain(Chain, BaseModel):
     """Chain that interprets a prompt and executes python code to do math.
     """
