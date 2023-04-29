@@ -88,3 +88,10 @@ RETURN DISTINCT n0 AS n4 LIMIT 10;
 建筑工程行业有多少家上市公司？
 水泥行业博士学历的男性高管有多少位？
 ```
+
+## 相关依赖包
+```shell
+pip install langchain==0.0.150
+pip install openai==0.27.4
+pip install neo4j-driver==1.7.6
+```
